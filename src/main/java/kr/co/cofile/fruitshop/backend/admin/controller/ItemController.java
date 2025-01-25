@@ -1,15 +1,17 @@
 package kr.co.cofile.fruitshop.backend.admin.controller;
 
 import kr.co.cofile.fruitshop.backend.admin.dto.ItemDto;
+import kr.co.cofile.fruitshop.backend.admin.mapper.ItemMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/items")
 public class ItemController {
+
+    @Autowired
+    private ItemMapper itemMapper;
 
     @GetMapping("/create")
     public String create() {
@@ -17,8 +19,10 @@ public class ItemController {
     }
 
     @PostMapping
+    @ResponseBody
     public void createItem(@RequestBody ItemDto itemDto) {
         System.out.println(itemDto.getName());
+        itemMapper.insertItem(itemDto);
     }
 
 }
