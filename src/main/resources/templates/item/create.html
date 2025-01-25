@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>상품 아이템 등록</title>
+</head>
+<body>
+<h1>상품 아이템 등록</h1>
+<form id="itemForm" th:action="@{/items}" method="post">
+    <label for="name_id">아이템(과일): </label>
+    <input type="text" id="name_id" name="name" required>
+    <button type="submit">아이템 등록</button>
+</form>
+<script th:src="@{/js/items.js}"></script>
+</body>
+</html>
