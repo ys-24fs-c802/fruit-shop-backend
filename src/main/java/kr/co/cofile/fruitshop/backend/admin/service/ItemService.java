@@ -18,7 +18,7 @@ public class ItemService {
     public ItemDto getItem(int id) {
         // NullException 처리
         ItemDto itemDto = itemMapper.selectItemById(id).orElseThrow(
-                () -> new IllegalStateException("파일을 찾을 수 없습니다.")
+                () -> new IllegalStateException("데이터를 찾을 수 없습니다.")
         );
         return itemDto;
     }

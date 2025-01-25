@@ -35,8 +35,13 @@ public class ItemController {
 
     @GetMapping("/{id}")
     public String getItem(@PathVariable("id") int id, Model model) {
-        ItemDto itemDto = itemService.getItem(id);
-        model.addAttribute("item", itemDto);
+        try {
+            ItemDto itemDto = itemService.getItem(id);
+            model.addAttribute("item", itemDto);
+        } catch (IllegalStateException e) {
+            model.addAttribute("message", e.getMessage());
+            return "error/404";
+        }
         return "item/detail";
     }
 
