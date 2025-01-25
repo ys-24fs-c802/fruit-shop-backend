@@ -5,6 +5,8 @@ import kr.co.cofile.fruitshop.backend.admin.mapper.ItemMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Service
 public class ItemService {
@@ -21,6 +23,10 @@ public class ItemService {
                 () -> new IllegalStateException("데이터를 찾을 수 없습니다.")
         );
         return itemDto;
+    }
+
+    public List<ItemDto> getItems() {
+        return itemMapper.selectItems();
     }
 
     public void modify(ItemDto itemDto) {

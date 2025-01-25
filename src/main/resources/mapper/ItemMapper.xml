@@ -12,7 +12,7 @@
     </select>
 
     <select id="selectItems" resultType="AdminItem">
-        SELECT id, name AS item FROM items ORDER BY id DESC LIMIT 3;
+        SELECT id, name FROM items ORDER BY id DESC LIMIT 3;
     </select>
 
     <update id="updateItem" parameterType="AdminItem">
