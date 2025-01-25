@@ -2,9 +2,11 @@ package kr.co.cofile.fruitshop.backend.admin.dto;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.ibatis.type.Alias;
 
 @Getter
 @Setter
+@Alias("AdminItem")
 public class ItemDto {
 
     private Integer id;
