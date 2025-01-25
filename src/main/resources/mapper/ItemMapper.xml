@@ -4,4 +4,7 @@
     <insert id="insertItem" parameterType="kr.co.cofile.fruitshop.backend.admin.dto.ItemDto">
         INSERT INTO items (name) VALUES (#{name});
     </insert>
+    <select id="selectItemById" resultType="kr.co.cofile.fruitshop.backend.admin.dto.ItemDto">
+        SELECT id, name FROM items WHERE id = #{id};
+    </select>
 </mapper>

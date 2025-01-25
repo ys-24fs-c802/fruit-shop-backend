@@ -7,5 +7,6 @@ import org.apache.ibatis.annotations.Mapper;
 public interface ItemMapper {
 
     void insertItem(ItemDto itemDto);
+    ItemDto selectItemById(int id);
 
 }
