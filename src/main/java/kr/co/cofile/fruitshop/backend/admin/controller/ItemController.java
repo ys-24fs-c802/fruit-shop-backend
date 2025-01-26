@@ -66,7 +66,7 @@ public class ItemController {
         return "item/modify";
     }
 
-    @PostMapping("/{id}/modify")
+    @PutMapping("/{id}/modify")
     @ResponseBody
     public void modifyItem(@RequestBody ItemDto itemDto) {
         System.out.println(itemDto.getName());
@@ -74,7 +74,7 @@ public class ItemController {
         // 수정 후 목록으로 리다이렉트는 js가 OK를 응답받고 처리
     }
 
-    @GetMapping("/{id}/remove")
+    @DeleteMapping("/{id}/remove")
     @ResponseBody
     public void removeItem(@PathVariable("id") int id) {
         itemService.removeItem(id);

@@ -9,7 +9,7 @@ document.getElementById('itemForm').addEventListener('submit', function(e) {
     // fetch(요청주소, 요청내용객체)
     // then 성공, 실패
     fetch("/items", {
-        method: 'post',
+        method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(item)
     }).then(response => {

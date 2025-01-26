@@ -4,7 +4,7 @@ function confirmDelete(element) {
 
     if (confirm('정말 삭제하시겠습니까?')) {
         fetch("/items/"+itemId+"/remove", {
-            method: 'get',
+            method: 'DELETE',
             headers: {'Content-Type': 'application/json'}
         }).then(response => {
             if (response.ok) {
