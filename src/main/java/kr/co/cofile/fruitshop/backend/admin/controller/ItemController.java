@@ -15,8 +15,6 @@ import java.util.List;
 @RequestMapping("/items")
 public class ItemController {
 
-    private final ItemMapper itemMapper;
-
     private final ItemService itemService;
 
     //public ItemController(ItemMapper itemMapper) {
@@ -32,7 +30,7 @@ public class ItemController {
     @ResponseBody
     public void createItem(@RequestBody ItemDto itemDto) {
         System.out.println(itemDto.getName());
-        itemMapper.insertItem(itemDto);
+        itemService.createItem(itemDto);
     }
 
     @GetMapping("/{id}")
@@ -73,7 +71,14 @@ public class ItemController {
     public void modifyItem(@RequestBody ItemDto itemDto) {
         System.out.println(itemDto.getName());
         itemService.modifyItem(itemDto);
-        // 수정 후 목록으로 리다이렉트는 js가 OK상태를 응답받고 처리
+        // 수정 후 목록으로 리다이렉트는 js가 OK를 응답받고 처리
+    }
+
+    @GetMapping("/{id}/remove")
+    @ResponseBody
+    public void removeItem(@PathVariable("id") int id) {
+        itemService.removeItem(id);
+        // return "redirect:/items";
     }
 
 }

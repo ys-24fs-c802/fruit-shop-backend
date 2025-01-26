@@ -17,6 +17,10 @@ public class ItemService {
     //    this.itemMapper = itemMapper;
     //}
 
+    public void createItem(ItemDto itemDto) {
+        itemMapper.insertItem(itemDto);
+    }
+
     public ItemDto getItem(int id) {
         // NullException 처리
         ItemDto itemDto = itemMapper.selectItemById(id).orElseThrow(

@@ -12,8 +12,12 @@
   <ul>
     <li>id: <span th:text="${item.id}"></span></li>
     <li>name: <span th:text="${item.name}"></span></li>
+    <li><a th:href="@{/items/{id}/modify(id=${item.id})}">수정하기</a></li>
+    <li><a href="#" th:data-item-id="${item.id}" onclick="confirmDelete(this); return false;">삭제하기</a></li>
   </ul>
-  <a th:href="@{/items/{id}/modify(id=${item.id})}">수정하기</a>
 </main>
+<th:block layout:fragment="js">
+  <script th:src="@{/js/items_detail.js}"></script>
+</th:block>
 </body>
 </html>
