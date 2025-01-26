@@ -24,7 +24,7 @@ public class ItemController {
     //}
 
     @GetMapping("/create")
-    public String create() {
+    public String createItem() {
         return "item/create";
     }
 
@@ -53,6 +53,27 @@ public class ItemController {
         model.addAttribute("items", items);
 
         return "item/list";
+    }
+
+    // modify나 edit을 사용
+    @GetMapping("/{id}/modify")
+    public String modifyItem(@PathVariable("id") int id, Model model) {
+        try {
+            ItemDto itemDto = itemService.getItem(id);
+            model.addAttribute("item", itemDto);
+        } catch (IllegalStateException e) {
+            model.addAttribute("message", e.getMessage());
+            return "error/404";
+        }
+        return "item/modify";
+    }
+
+    @PostMapping("/{id}/modify")
+    @ResponseBody
+    public void modifyItem(@RequestBody ItemDto itemDto) {
+        System.out.println(itemDto.getName());
+        itemService.modifyItem(itemDto);
+        // 수정 후 목록으로 리다이렉트는 js가 OK상태를 응답받고 처리
     }
 
 }

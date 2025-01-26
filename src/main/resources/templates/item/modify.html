@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/base}">
+<head>
+  <title>상품 아이템 수정</title>
+</head>
+<body>
+<main layout:fragment="content">
+  <h1>상품 아이템 수정</h1>
+  <form id="itemForm">
+    <input type="hidden" id="id_id" name="id" th:value="${item.id}">
+    <label for="name_id">아이템(과일): </label>
+    <input type="text" id="name_id" name="name" th:value="${item.name}">
+    <button type="submit">아이템 수정</button>
+  </form>
+</main>
+<th:block layout:fragment="js">
+  <script th:src="@{/js/items_modify.js}"></script>
+</th:block>
+</body>
+</html>
