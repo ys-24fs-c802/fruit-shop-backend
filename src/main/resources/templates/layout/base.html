@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http:/www.ultraq.net.nz/thymeleaf/layout">
+    <head>
+        <meta charset="UTF-8">
+        <title layout:title-pattern="$CONTENT_TITLE | $LAYOUT_TITLE">과일가게</title>
+        <!-- 공통 스타일시스 -->
+        <link rel="stylesheet" th:href="@{/css/common.css}">
+        <!-- 페이지별 추가 스타일시트 -->
+        <th:block layout:fragment="css"></th:block>
+    </head>
+    <body>
+        <!-- 헤더영역 -->
+        <header th:replace="~{fragments/header :: header}">
+            <p>헤더 영역</p>
+        </header>
+        <!-- 메인 컨텐츠 영역 -->
+        <main layout:fragment="content">
+            <p>기본 컨텐츠 영역입니다.</p>
+        </main>
+        <!-- 푸터 영역 -->
+        <footer th:replace="~{fragments/footer :: footer}">
+            <p>헤더 영역</p>
+        </footer>
+        <!-- 공통 스크립트 -->
+        <script th:src="@{/js/common.js}"></script>
+        <!-- 페이지별 추가 스크립트 -->
+        <th:block layout:fragment="js"></th:block>
+    </body>
+</html>

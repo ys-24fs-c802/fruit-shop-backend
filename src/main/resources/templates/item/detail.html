@@ -1,14 +1,18 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/base}">
 <head>
   <meta charset="UTF-8">
   <title>상품 아이템 상세</title>
 </head>
 <body>
-<h1>상품 아이템 상세</h1>
-<ul>
-  <li>id: <span th:text="${item.id}"></span></li>
-  <li>name: <span th:text="${item.name}"></span></li>
-</ul>
+<main layout:fragment="content">
+  <h1>상품 아이템 상세</h1>
+  <ul>
+    <li>id: <span th:text="${item.id}"></span></li>
+    <li>name: <span th:text="${item.name}"></span></li>
+  </ul>
+</main>
 </body>
 </html>
