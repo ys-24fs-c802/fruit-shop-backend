@@ -17,7 +17,7 @@
       <th>상품명</th>
     </tr>
     <!-- 반복구간 시작 List<ItemDto> -->
-    <tr th:each="item: ${pageDto.items}">
+    <tr th:each="item: ${pageDto.content}">
       <td th:text="${item.id}"></td>
       <td><a th:href="@{/items/{id}(id=${item.id})}" th:text="${item.name}"></a></td>
     </tr>

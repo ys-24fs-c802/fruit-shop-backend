@@ -1,6 +1,6 @@
 package kr.co.cofile.fruitshop.backend.admin.service;
 
-import kr.co.cofile.fruitshop.backend.admin.dto.Page2Dto;
+import kr.co.cofile.fruitshop.backend.admin.dto.PageDto;
 import kr.co.cofile.fruitshop.backend.admin.dto.SupplyDto;
 import kr.co.cofile.fruitshop.backend.admin.mapper.SupplyMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,12 +24,12 @@ public class SupplyService {
         );
     }
 
-    public Page2Dto getSupplies(int page, int size) {
+    public PageDto<SupplyDto> getSupplies(int page, int size) {
         int offset = (page - 1) * size;
         List<SupplyDto> supplies = supplyMapper.getSupplies(size, offset);
         int totalElements = supplyMapper.countTotal();
 
-        return new Page2Dto(page, size, totalElements, supplies);
+        return new PageDto<>(page, size, totalElements, supplies);
     }
 
     public void modifySupply(SupplyDto supplyDto) {

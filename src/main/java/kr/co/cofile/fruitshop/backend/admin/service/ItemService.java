@@ -31,14 +31,14 @@ public class ItemService {
     }
 
     // size: 요천건수
-    public PageDto getItems(int page, int size) {
+    public PageDto<ItemDto> getItems(int page, int size) {
         int offset = (page - 1) * size;
         // 갯수가 size인 item목록
         List<ItemDto> items = itemMapper.selectItems(size, offset);
         // 총갯수
         int totalElements = itemMapper.countTotal();
 
-        return new PageDto(page, size, totalElements, items);
+        return new PageDto<>(page, size, totalElements, items);
     }
 
     public void modifyItem(ItemDto itemDto) {

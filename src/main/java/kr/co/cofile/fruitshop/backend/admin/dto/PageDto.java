@@ -8,7 +8,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class PageDto {
+public class PageDto<T> {
     private int page;
     private int size; // 페이지당 항목 수
     private int totalPages;
@@ -18,9 +18,9 @@ public class PageDto {
     private int end; // 끝 페이지 번호
     private boolean prev;
     private boolean next;
-    private List<ItemDto> items;
+    private List<T> content;
 
-    public PageDto(int page, int size, int totalElements, List<ItemDto> items) {
+    public PageDto(int page, int size, int totalElements, List<T> content) {
         this.page = page;
         this.size = size;
         this.totalElements = totalElements;
@@ -38,6 +38,6 @@ public class PageDto {
         this.prev = start > 1;
         this.next = end < totalPages;
 
-        this.items = items;
+        this.content = content;
     }
 }

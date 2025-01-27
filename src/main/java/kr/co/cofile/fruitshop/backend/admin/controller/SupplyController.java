@@ -1,10 +1,7 @@
 package kr.co.cofile.fruitshop.backend.admin.controller;
 
-import kr.co.cofile.fruitshop.backend.admin.dto.ItemDto;
-import kr.co.cofile.fruitshop.backend.admin.dto.Page2Dto;
 import kr.co.cofile.fruitshop.backend.admin.dto.PageDto;
 import kr.co.cofile.fruitshop.backend.admin.dto.SupplyDto;
-import kr.co.cofile.fruitshop.backend.admin.service.ItemService;
 import kr.co.cofile.fruitshop.backend.admin.service.SupplyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -47,8 +44,8 @@ public class SupplyController {
     public String getSupplies(@RequestParam(name="page", defaultValue = "1") int page,
                            @RequestParam(name="size", defaultValue = "10") int size,
                            Model model) {
-        Page2Dto page2Dto = supplyService.getSupplies(page, size);
-        model.addAttribute("pageDto", page2Dto);
+        PageDto<SupplyDto> pageDto = supplyService.getSupplies(page, size);
+        model.addAttribute("pageDto", pageDto);
 
         return "supply/list";
     }
