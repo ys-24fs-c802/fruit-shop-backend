@@ -36,9 +36,9 @@ document.getElementById('itemForm').addEventListener('submit', function(e) {
         name: document.getElementById('name_id').value,
     }
 
-    if (! hasWhiteSpace(item.item) &&
-        ! hasSpecialChar(item.item) &&
-        ! startWithNumber(item.item)) {
+    if (! hasWhiteSpace(item.name) &&
+        ! hasSpecialChar(item.name) &&
+        ! startWithNumber(item.name)) {
         alert('서버로 전송합니다.');
     } else {
         alert('상품명을 다시 확인해주세요.');
