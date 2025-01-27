@@ -37,11 +37,8 @@ public class ItemService {
         List<ItemDto> items = itemMapper.selectItems(size, offset);
         // 총갯수
         int totalElements = itemMapper.countTotal();
-        // 총페이지
-        // 13/5 2.xxx 2, 3 Math.ceil(2.xxx) => 3.0  => 3
-        int totalPages = (int) Math.ceil((double) totalElements / size);
 
-        return new PageDto(page, size, totalPages, totalElements, items);
+        return new PageDto(page, size, totalElements, items);
     }
 
     public void modifyItem(ItemDto itemDto) {

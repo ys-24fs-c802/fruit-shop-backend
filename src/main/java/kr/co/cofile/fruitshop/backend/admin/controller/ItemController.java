@@ -49,7 +49,7 @@ public class ItemController {
     // 요청URL 형식: /items?page=1&size=10
     @GetMapping
     public String getItems(@RequestParam(name="page", defaultValue = "1") int page,
-                           @RequestParam(name="size", defaultValue = "3") int size,
+                           @RequestParam(name="size", defaultValue = "10") int size,
                            Model model) {
         PageDto pageDto = itemService.getItems(page, size);
         model.addAttribute("pageDto", pageDto);

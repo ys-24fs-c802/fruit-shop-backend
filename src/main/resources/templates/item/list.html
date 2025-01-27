@@ -8,6 +8,9 @@
 <body>
 <main layout:fragment="content">
   <h1>상품 아이템 목록</h1>
+  <div>
+    총 상품 건수: <span th:text="${pageDto.totalElements}"></span>
+  </div>
   <table>
     <tr>
       <th>아이디</th>
@@ -21,19 +24,13 @@
     <!-- 반복구간 끝 -->
   </table>
   <div>
-    <ul>
-      <!-- 페이지 번호는 몇 번 반복 -->
-      <li th:each="pageNum : ${#numbers.sequence(1, pageDto.totalPages)}">
-        <a th:href="@{/items(page=${pageNum}, size=${pageDto.size})}" th:text="${pageNum}"></a>
-      </li>
-    </ul>
+    <a th:if="${pageDto.prev}" th:href="@{/items(page=${pageDto.start - 1}, size=${pageDto.size})}" th:text="이전"></a>
+    <!-- 페이지 번호는 몇 번 반복 -->
+    <span th:each="pageNum : ${#numbers.sequence(pageDto.start, pageDto.end)}">
+      <a th:href="@{/items(page=${pageNum}, size=${pageDto.size})}" th:text="${pageNum}"></a>
+    </span>
+    <a th:if="${pageDto.next}" th:href="@{/items(page=${pageDto.end + 1}, size=${pageDto.size})}" th:text="다음"></a>
   </div>
-  <ul>
-    <li th:text="|page:  + ${pageDto.page}|"></li>
-    <li th:text="|size:  + ${pageDto.size}|"></li>
-    <li th:text="|totalPages:  + ${pageDto.totalPages}|"></li>
-    <li th:text="|totalElements:  + ${pageDto.totalElements}|"></li>
-  </ul>
 </main>
 </body>
 </html>
