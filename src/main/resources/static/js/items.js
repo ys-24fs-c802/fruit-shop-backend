@@ -26,6 +26,8 @@ document.getElementById('name_id').addEventListener('input', function(e) {
     spaceError.style.display = hasWhiteSpace(value) ? 'block' : 'none';
     specialCharError.style.display = hasSpecialChar(value) ? 'block' : 'none';
     startWithNumberError.style.display = startWithNumber(value) ? 'block' : 'none';
+    // 입력시 서버 오류 메시지는 감추기
+    document.getElementById('nameError').style.display = 'none';
 })
 
 document.getElementById('itemForm').addEventListener('submit', function(e) {
@@ -36,9 +38,9 @@ document.getElementById('itemForm').addEventListener('submit', function(e) {
         name: document.getElementById('name_id').value,
     }
 
-    if (! hasWhiteSpace(item.item) &&
-        ! hasSpecialChar(item.item) &&
-        ! startWithNumber(item.item)) {
+    if (! hasWhiteSpace(item.name) &&
+        ! hasSpecialChar(item.name) &&
+        ! startWithNumber(item.name)) {
         alert('서버로 전송합니다.');
     } else {
         alert('상품명을 다시 확인해주세요.');
@@ -56,6 +58,15 @@ document.getElementById('itemForm').addEventListener('submit', function(e) {
             document.getElementById('itemForm').reset();
         } else {
             alert('아이템 등록에 실패했습니다.');
+            response.json().then(errorMap => {
+                Object.entries(errorMap).forEach(([field, messages]) => {
+                    const errorEl = document.getElementById(`${field}Error`);
+                    if (errorEl) {
+                        errorEl.style.display = 'block';
+                        errorEl.innerText = messages.join('\n');
+                    }
+                });
+            });
         }
     }).catch(error => {
         console.error('Error:', error);
