@@ -12,7 +12,11 @@
     </select>
 
     <select id="selectItems" resultType="AdminItem">
-        SELECT id, name FROM items ORDER BY id DESC LIMIT 3;
+        SELECT id, name FROM items ORDER BY id DESC LIMIT #{size} OFFSET #{offset};
+    </select>
+
+    <select id="countTotal" resultType="Integer">
+        SELECT count(*) FROM items;
     </select>
 
     <update id="updateItem" parameterType="AdminItem">

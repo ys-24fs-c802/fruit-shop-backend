@@ -13,13 +13,27 @@
       <th>아이디</th>
       <th>상품명</th>
     </tr>
-    <!-- 반복구간 시작 -->
-    <tr th:each="item: ${items}">
+    <!-- 반복구간 시작 List<ItemDto> -->
+    <tr th:each="item: ${pageDto.items}">
       <td th:text="${item.id}"></td>
       <td><a th:href="@{/items/{id}(id=${item.id})}" th:text="${item.name}"></a></td>
     </tr>
     <!-- 반복구간 끝 -->
   </table>
+  <div>
+    <ul>
+      <!-- 페이지 번호는 몇 번 반복 -->
+      <li th:each="pageNum : ${#numbers.sequence(1, pageDto.totalPages)}">
+        <a th:href="@{/items(page=${pageNum}, size=${pageDto.size})}" th:text="${pageNum}"></a>
+      </li>
+    </ul>
+  </div>
+  <ul>
+    <li th:text="|page:  + ${pageDto.page}|"></li>
+    <li th:text="|size:  + ${pageDto.size}|"></li>
+    <li th:text="|totalPages:  + ${pageDto.totalPages}|"></li>
+    <li th:text="|totalElements:  + ${pageDto.totalElements}|"></li>
+  </ul>
 </main>
 </body>
 </html>

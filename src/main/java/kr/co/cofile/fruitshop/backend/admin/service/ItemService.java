@@ -1,6 +1,7 @@
 package kr.co.cofile.fruitshop.backend.admin.service;
 
 import kr.co.cofile.fruitshop.backend.admin.dto.ItemDto;
+import kr.co.cofile.fruitshop.backend.admin.dto.PageDto;
 import kr.co.cofile.fruitshop.backend.admin.mapper.ItemMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -29,8 +30,18 @@ public class ItemService {
         return itemDto;
     }
 
-    public List<ItemDto> getItems() {
-        return itemMapper.selectItems();
+    // size: 요천건수
+    public PageDto getItems(int page, int size) {
+        int offset = (page - 1) * size;
+        // 갯수가 size인 item목록
+        List<ItemDto> items = itemMapper.selectItems(size, offset);
+        // 총갯수
+        int totalElements = itemMapper.countTotal();
+        // 총페이지
+        // 13/5 2.xxx 2, 3 Math.ceil(2.xxx) => 3.0  => 3
+        int totalPages = (int) Math.ceil((double) totalElements / size);
+
+        return new PageDto(page, size, totalPages, totalElements, items);
     }
 
     public void modifyItem(ItemDto itemDto) {

@@ -1,6 +1,7 @@
 package kr.co.cofile.fruitshop.backend.admin.controller;
 
 import kr.co.cofile.fruitshop.backend.admin.dto.ItemDto;
+import kr.co.cofile.fruitshop.backend.admin.dto.PageDto;
 import kr.co.cofile.fruitshop.backend.admin.mapper.ItemMapper;
 import kr.co.cofile.fruitshop.backend.admin.service.ItemService;
 import lombok.RequiredArgsConstructor;
@@ -45,10 +46,13 @@ public class ItemController {
         return "item/detail";
     }
 
+    // 요청URL 형식: /items?page=1&size=10
     @GetMapping
-    public String getItems(Model model) {
-        List<ItemDto> items = itemService.getItems();
-        model.addAttribute("items", items);
+    public String getItems(@RequestParam(name="page", defaultValue = "1") int page,
+                           @RequestParam(name="size", defaultValue = "3") int size,
+                           Model model) {
+        PageDto pageDto = itemService.getItems(page, size);
+        model.addAttribute("pageDto", pageDto);
 
         return "item/list";
     }
