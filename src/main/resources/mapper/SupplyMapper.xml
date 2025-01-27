@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.cofile.fruitshop.backend.admin.mapper.SupplyMapper">
+    <insert id="insertSupply" parameterType="AdminSupply"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO supply (name, contact1, contact2, business_number)
+        VALUES (#{name}, #{contact1}, #{contact2}, #{businessNumber});
+    </insert>
+
+    <select id="getSupplyById" resultType="AdminSupply">
+        SELECT id, name, contact1, contact2, business_number FROM supply WHERE id = #{id};
+    </select>
+
+    <select id="getSupplies" resultType="AdminSupply">
+        SELECT id, name, contact1, contact2, business_number
+        FROM supply ORDER BY id DESC LIMIT #{size} OFFSET #{offset};
+    </select>
+
+    <select id="countTotal" resultType="Integer">
+        SELECT count(*) FROM supply;
+    </select>
+
+    <update id="updateSupply" parameterType="AdminSupply">
+        UPDATE supply SET name = #{name},
+                          contact1 = #{contact1},
+                          contact2 = #{contact2},
+                          business_number = #{businessNumber}
+        WHERE id = #{id};
+    </update>
+
+    <delete id="deleteSupply">
+        DELETE FROM supply WHERE id = #{id};
+    </delete>
+</mapper>
