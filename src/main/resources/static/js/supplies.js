@@ -1,43 +1,4 @@
-// 공백 검사
-function hasWhiteSpace(str) {
-    return /\s/.test(str)
-}
-
-// 특수문자 검사 [!@#$%]
-// ., -, \는 정규시에 사용되는 문자이므로 이스케이프(escape) 처리를 해야 합니다.
-function hasSpecialChar(str) {
-    return /[!@#$%^&*():{}|<>,'~_=\.\-\\`]/.test(str);
-}
-
-// 숫자로 시작하는지 검사
-function startWithNumber(str) {
-    // 1abc, 9abc 시작할 때 검사는 ^를 사용합니다.
-    return /^[0-9]/.test(str)
-}
-
-function hyphenDelete(str) {
-    // 좌우 공백 제거
-//    str = str.trim();
-
-    // 하이픈 제거
-    str = str.replace(/-/g, '');
-
-    return str;
-}
-
-// 전화번호(010) 검사
-function validatePhoneNumber(str) {
-    str = hyphenDelete(str);
-    // 전화번호 패턴 검사(01로 시작하는 10-11자리)
-    return /^01[0-9]{8,9}/.test(str);
-}
-
-// 사업자 번호 검사
-function validateBusinessNumber(str) {
-    str = hyphenDelete(str);
-    // 사업자번호 패턴 검사(10자리)
-    return /[0-9]{10}/.test(str);
-}
+import { inputValidator } from "./common.js";
 
 document.getElementById('name_id').addEventListener('input', function(e) {
     const value = e.target.value;
@@ -47,27 +8,27 @@ document.getElementById('name_id').addEventListener('input', function(e) {
 
     //console.log(value, "=>", hasWhiteSpace(value));
 
-    spaceError.style.display = hasWhiteSpace(value) ? 'block' : 'none';
-    specialCharError.style.display = hasSpecialChar(value) ? 'block' : 'none';
-    startWithNumberError.style.display = startWithNumber(value) ? 'block' : 'none';
+    spaceError.style.display = inputValidator.hasWhiteSpace(value) ? 'block' : 'none';
+    specialCharError.style.display = inputValidator.hasSpecialChar(value) ? 'block' : 'none';
+    startWithNumberError.style.display = inputValidator.startWithNumber(value) ? 'block' : 'none';
 })
 
 document.getElementById('contact1_id').addEventListener('input', function(e) {
     const value = e.target.value;
     const contact1Error = document.getElementById('contact1Error');
-    contact1Error.style.display = !validatePhoneNumber(value) ? 'block' : 'none';
+    contact1Error.style.display = !inputValidator.validateLandLineNumber(value) ? 'block' : 'none';
 })
 
 document.getElementById('contact2_id').addEventListener('input', function(e) {
     const value = e.target.value;
     const contact2Error = document.getElementById('contact2Error');
-    contact2Error.style.display = !validatePhoneNumber(value) ? 'block' : 'none';
+    contact2Error.style.display = !inputValidator.validateMobileNumber(value) ? 'block' : 'none';
 })
 
 document.getElementById('business_number_id').addEventListener('input', function(e) {
     const value = e.target.value;
     const businessNumberError = document.getElementById('businessNumberError');
-    businessNumberError.style.display = !validateBusinessNumber(value) ? 'block' : 'none';
+    businessNumberError.style.display = !inputValidator.validateBusinessNumber(value) ? 'block' : 'none';
 })
 
 document.getElementById('supplyForm').addEventListener('submit', function(e) {
@@ -76,18 +37,18 @@ document.getElementById('supplyForm').addEventListener('submit', function(e) {
 
     const supply = {
         name: document.getElementById('name_id').value,
-        contact1: hyphenDelete(document.getElementById('contact1_id').value),
-        contact2: hyphenDelete(document.getElementById('contact2_id').value),
-        businessNumber: hyphenDelete(document.getElementById('business_number_id').value),
+        contact1: document.getElementById('contact1_id').value,
+        contact2: document.getElementById('contact2_id').value,
+        businessNumber: document.getElementById('business_number_id').value,
     }
 
-    if (! hasWhiteSpace(supply.name) &&
-        ! hasSpecialChar(supply.name) &&
-        ! startWithNumber(supply.name) &&
-        validatePhoneNumber(supply.contact1) &&
-        validatePhoneNumber(supply.contact2) &&
-        validateBusinessNumber(supply.businessNumber)) {
-        alert('서버로 전송한다.');
+    if (!inputValidator.hasWhiteSpace(supply.name) &&
+        !inputValidator.hasSpecialChar(supply.name) &&
+        !inputValidator.startWithNumber(supply.name) &&
+        !inputValidator.validateLandLineNumber(supply.contact1) &&
+        !inputValidator.validateMobileNumber(supply.contact2) &&
+        !inputValidator.validateBusinessNumber(supply.businessNumber)) {
+        // alert('서버로 전송한다.');
     } else {
         alert('입력값을 다시 확인해주세요.');
     }
