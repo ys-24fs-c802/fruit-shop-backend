@@ -1,17 +1,45 @@
 import { inputValidator } from "./common.js";
+import { FormValidator } from "./form_validator.js";
 
-document.getElementById('name_id').addEventListener('input', function(e) {
-    const value = e.target.value;
-    const spaceError = document.getElementById('spaceError');
-    const specialCharError = document.getElementById('specialCharError');
-    const startWithNumberError = document.getElementById('startWithNumberError');
+const config = {
+    fields: {
+        name: {
+            id: 'name_id',
+            rules: [
+                {
+                    validate: inputValidator.hasWhiteSpace,
+                    errorId: 'spaceError',
+                    message: '공백을 포함할 수 없습니다.'
+                },
+                {
+                    validate: inputValidator.hasSpecialChar,
+                    errorId: 'specialCharError',
+                    message: '특수문자를 포함할 수 없습니다.'
+                },
+                {
+                    validate: inputValidator.startWithNumber,
+                    errorId: 'startWithNumberError',
+                    message: '숫자로 시작할 수 없습니다.'
+                }
+            ]
+        },
+    }
+}
 
-    //console.log(value, "=>", hasWhiteSpace(value));
+const formValidator = new FormValidator('itemForm', config);
 
-    spaceError.style.display = inputValidator.hasWhiteSpace(value) ? 'block' : 'none';
-    specialCharError.style.display = inputValidator.hasSpecialChar(value) ? 'block' : 'none';
-    startWithNumberError.style.display = inputValidator.startWithNumber(value) ? 'block' : 'none';
-})
+// document.getElementById('name_id').addEventListener('input', function(e) {
+//     const value = e.target.value;
+//     const spaceError = document.getElementById('spaceError');
+//     const specialCharError = document.getElementById('specialCharError');
+//     const startWithNumberError = document.getElementById('startWithNumberError');
+//
+//     //console.log(value, "=>", hasWhiteSpace(value));
+//
+//     spaceError.style.display = inputValidator.hasWhiteSpace(value) ? 'block' : 'none';
+//     specialCharError.style.display = inputValidator.hasSpecialChar(value) ? 'block' : 'none';
+//     startWithNumberError.style.display = inputValidator.startWithNumber(value) ? 'block' : 'none';
+// })
 
 document.getElementById('itemForm').addEventListener('submit', function(e) {
 
