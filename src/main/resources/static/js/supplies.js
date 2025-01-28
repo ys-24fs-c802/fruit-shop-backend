@@ -53,6 +53,13 @@ const config = {
                 }
             ]
         }
+    },
+    submitUrl: '/supplies',
+    onSuccess: {
+        message: '구입처가 등록되었습니다.'
+    },
+    onError: {
+        message: '구입처 등록에 실패했습니다.'
     }
 }
 
@@ -89,44 +96,44 @@ const formValidator = new FormValidator('supplyForm', config);
 //     businessNumberError.style.display = !inputValidator.validateBusinessNumber(value) ? 'block' : 'none';
 // })
 
-document.getElementById('supplyForm').addEventListener('submit', function(e) {
-
-    e.preventDefault();
-
-    const supply = {
-        name: document.getElementById('name_id').value,
-        contact1: document.getElementById('contact1_id').value,
-        contact2: document.getElementById('contact2_id').value,
-        businessNumber: document.getElementById('business_number_id').value,
-    }
-
-    if (!inputValidator.hasWhiteSpace(supply.name) &&
-        !inputValidator.hasSpecialChar(supply.name) &&
-        !inputValidator.startWithNumber(supply.name) &&
-        !inputValidator.validateLandLineNumber(supply.contact1) &&
-        !inputValidator.validateMobileNumber(supply.contact2) &&
-        !inputValidator.validateBusinessNumber(supply.businessNumber)) {
-        // alert('서버로 전송한다.');
-    } else {
-        alert('입력값을 다시 확인해주세요.');
-    }
-
-    // fetch(요청주소, 요청내용객체)
-    // 성공
-    // 실패
-    fetch("/supplies", {
-        method: 'post',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(supply)
-    }).then(response => {
-        if (response.ok) {
-            alert('구입처가 성공적으로 등록되었습니다.');
-            document.getElementById('supplyForm').reset();
-        } else {
-            alert('구입처 등록에 실패했습니다.');
-        }
-    }).catch(error => {
-        console.error('Error:', error);
-        alert('오류가 발생했습니다.');
-    });
-});
+// document.getElementById('supplyForm').addEventListener('submit', function(e) {
+//
+//     e.preventDefault();
+//
+//     const supply = {
+//         name: document.getElementById('name_id').value,
+//         contact1: document.getElementById('contact1_id').value,
+//         contact2: document.getElementById('contact2_id').value,
+//         businessNumber: document.getElementById('business_number_id').value,
+//     }
+//
+//     if (!inputValidator.hasWhiteSpace(supply.name) &&
+//         !inputValidator.hasSpecialChar(supply.name) &&
+//         !inputValidator.startWithNumber(supply.name) &&
+//         !inputValidator.validateLandLineNumber(supply.contact1) &&
+//         !inputValidator.validateMobileNumber(supply.contact2) &&
+//         !inputValidator.validateBusinessNumber(supply.businessNumber)) {
+//         // alert('서버로 전송한다.');
+//     } else {
+//         alert('입력값을 다시 확인해주세요.');
+//     }
+//
+//     // fetch(요청주소, 요청내용객체)
+//     // 성공
+//     // 실패
+//     fetch("/supplies", {
+//         method: 'post',
+//         headers: {'Content-Type': 'application/json'},
+//         body: JSON.stringify(supply)
+//     }).then(response => {
+//         if (response.ok) {
+//             alert('구입처가 성공적으로 등록되었습니다.');
+//             document.getElementById('supplyForm').reset();
+//         } else {
+//             alert('구입처 등록에 실패했습니다.');
+//         }
+//     }).catch(error => {
+//         console.error('Error:', error);
+//         alert('오류가 발생했습니다.');
+//     });
+// });

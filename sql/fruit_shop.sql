@@ -34,6 +34,15 @@ create table supply (
                         business_number varchar(10) null unique comment '사업자번호'
 );
 
+alter table supply
+    modify contact1 varchar(12) null comment '일반전화';
+alter table supply
+    modify contact2 varchar(13) null comment '모바일';
+alter table supply
+    modify business_number varchar(12) null comment '사업자번호';
+
+
+
 -- 품목 items
 create table items (
                        id int not null auto_increment primary key,
