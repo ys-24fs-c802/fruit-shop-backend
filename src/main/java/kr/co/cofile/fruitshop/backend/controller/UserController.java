@@ -12,22 +12,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 @RequiredArgsConstructor
 public class UserController {
-    private final UserService userService;
-
-    @GetMapping("/auth/signup")
-    public String signup() {
-        return "/user/signup";
+    @GetMapping("/admin/dashboard")
+    public String home() {
+        return "/common/dashboard";
     }
 
-    @PostMapping("/auth/signup")
-    public String signup(@ModelAttribute UserDTO userDTO) {
-
-        userService.signup(userDTO);
-
-        return "redirect:/auth/login";
-    }
-
-    @GetMapping("/auth/login")
+    @GetMapping("/admin/login")
     public String login() {
         return "/user/login";
     }
