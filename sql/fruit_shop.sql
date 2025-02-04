@@ -50,3 +50,37 @@ alter table purchases
 
 alter table purchases
     add foreign key (supplier_id) references supply(id);
+
+-- 사용자
+CREATE TABLE users
+(
+    id         INT AUTO_INCREMENT PRIMARY KEY,
+    username   VARCHAR(50) NOT NULL UNIQUE,
+    password   VARCHAR(60) NOT NULL COMMENT 'Bcrypt 해시값',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    enabled    BOOLEAN DEFAULT true
+);
+
+-- 권한
+create table roles
+(
+    id   INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL UNIQUE
+);
+
+-- 사용자-권한 매핑 테이블
+CREATE TABLE user_roles
+(
+    user_id INT NOT NULL,
+    role_id INT NOT NULL,
+    PRIMARY KEY (user_id, role_id),
+    FOREIGN KEY (user_id) REFERENCES users (id),
+    FOREIGN KEY (role_id) REFERENCES roles (id)
+);
+
+-- 기본 권한 데이터 추가
+INSERT INTO roles (name)
+VALUES ('ROLE_USER'),
+       ('ROLE_ADMIN'),
+       ('ROLE_MANAGER');
