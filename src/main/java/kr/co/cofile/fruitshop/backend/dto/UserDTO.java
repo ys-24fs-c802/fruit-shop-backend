@@ -7,7 +7,7 @@ import java.util.List;
 
 @Data
 public class UserDTO {
-    private Long id;
+    private Integer id;
     private String username;
     private String password;
     private LocalDateTime create_at;
