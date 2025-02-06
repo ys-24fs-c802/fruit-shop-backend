@@ -2,32 +2,65 @@ package kr.co.cofile.fruitshop.backend.component;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
+import kr.co.cofile.fruitshop.backend.dto.UserRole;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
+import javax.crypto.SecretKey;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class JwtUtil {
     @Value("${jwt.secret-key}")
     private String SECRET_KEY;
+
     @Value("${jwt.expiration-time}")// 보안성을 위해 환경변수로 관리 권장
     private long EXPIRATION_TIME;    // 1일 (ms)
 
+    private Claims getClaimsFromToken(String token) {
+        SecretKey key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
+
+        return Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+    }
+
     // JWT 토큰 생성
-    public String generateToken(String username) {
+    public String generateToken(String username, List<String> roles) {
+        // SECRET_KEY.getBytes()는 빈 생성 후 값이 주입된 시점에서 실행되어야 하므로 메서드 내부에서 처리
+        SecretKey key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
+
+        String rolesStr = String.join(",", roles);
+
         return Jwts.builder()
                 .setSubject(username)
+                .claim("roles", rolesStr)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-                .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+                .signWith(key)
                 .compact();
     }
 
     // JWT 토큰에서 사용자 정보 추출
     public String extractUsername(String token) {
         return extractClaims(token).getSubject();
+    }
+
+    // JWT 토큰에서 권한 정보 추출
+    public List<String> extractRoles(String token) {
+        String roles =  getClaimsFromToken(token).get("roles", String.class);
+
+        return Arrays.stream(roles.split(","))
+                .map(UserRole::fromRoleName)
+                .collect(Collectors.toList());
     }
 
     // 토큰 유효성 검증
@@ -37,8 +70,11 @@ public class JwtUtil {
 
     // Claims 추출
     private Claims extractClaims(String token) {
-        return Jwts.parser()
-                .setSigningKey(SECRET_KEY)
+        SecretKey key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
+
+        return Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
                 .parseClaimsJws(token)
                 .getBody();
     }
