@@ -37,6 +37,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             // "Bearer " 이후의 JWT 토큰 추출
             String jwtToken = authHeader.substring(7);
 
+//            if (!jwtUtil.validateToken(jwtToken)) {
+//                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Access Token expired or invalid");
+//                return;  // 필터 체인 중단
+//            }
+
             // JWT에서 사용자명(username)과 역할(roles) 정보 추출
             String username = jwtUtil.extractUsername(jwtToken);
             List<String> roles = jwtUtil.extractRoles(jwtToken);

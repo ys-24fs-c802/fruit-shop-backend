@@ -5,12 +5,11 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import kr.co.cofile.fruitshop.backend.dto.UserRole;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,8 +19,14 @@ public class JwtUtil {
     @Value("${jwt.secret-key}")
     private String SECRET_KEY;
 
-    @Value("${jwt.expiration-time}")// 보안성을 위해 환경변수로 관리 권장
-    private long EXPIRATION_TIME;    // 1일 (ms)
+//    @Value("${jwt.expiration-time}")// 보안성을 위해 환경변수로 관리 권장
+//    private long EXPIRATION_TIME;    // 1일 (ms)
+
+    @Value("${jwt.access-token-expiration-time}")
+    private long ACCESS_TOKEN_EXPIRATION_TIME;
+
+    @Value("${jwt.refresh-token-expiration-time}")
+    private long REFRESH_TOKEN_EXPIRATION_TIME;
 
     private Claims getClaimsFromToken(String token) {
         SecretKey key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
@@ -34,8 +39,7 @@ public class JwtUtil {
     }
 
     // JWT 토큰 생성
-    public String generateToken(String username, List<String> roles) {
-        // SECRET_KEY.getBytes()는 빈 생성 후 값이 주입된 시점에서 실행되어야 하므로 메서드 내부에서 처리
+    public String generateToken(String username, List<String> roles, long expirationTime) {
         SecretKey key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
 
         String rolesStr = String.join(",", roles);
@@ -44,9 +48,19 @@ public class JwtUtil {
                 .setSubject(username)
                 .claim("roles", rolesStr)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+                .setExpiration(new Date(System.currentTimeMillis() + expirationTime))
                 .signWith(key)
                 .compact();
+    }
+
+    // Access Token 생성
+    public String generateAccessToken(String username, List<String> roles) {
+        return generateToken(username, roles, ACCESS_TOKEN_EXPIRATION_TIME);
+    }
+
+    // Refresh Token 생성 (role 없이)
+    public String generateRefreshToken(String username) {
+        return generateToken(username, Collections.emptyList(), REFRESH_TOKEN_EXPIRATION_TIME);
     }
 
     // JWT 토큰에서 사용자 정보 추출
