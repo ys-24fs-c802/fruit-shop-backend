@@ -1,12 +1,22 @@
 package kr.co.cofile.fruitshop.backend.controller;
 
+import jakarta.validation.Valid;
 import kr.co.cofile.fruitshop.backend.dto.PageDto;
 import kr.co.cofile.fruitshop.backend.dto.SupplyDto;
 import kr.co.cofile.fruitshop.backend.service.SupplyService;
+import kr.co.cofile.fruitshop.backend.utils.ValidationUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @Controller
@@ -21,10 +31,16 @@ public class SupplyController {
     }
 
     @PostMapping
-    @ResponseBody
-    public void createSupply(@RequestBody SupplyDto supplyDto) {
+    public ResponseEntity<?> createSupply(@Valid @RequestBody SupplyDto supplyDto, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return ValidationUtil.handleValidationErrors(bindingResult);
+        }
+
         System.out.println(supplyDto.getName());
+
+        // TODO 중복아이템 예외 처리
         supplyService.createSupply(supplyDto);
+        return new ResponseEntity<>(supplyDto, HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")

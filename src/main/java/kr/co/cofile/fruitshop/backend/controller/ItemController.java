@@ -3,10 +3,24 @@ package kr.co.cofile.fruitshop.backend.controller;
 import kr.co.cofile.fruitshop.backend.dto.ItemDto;
 import kr.co.cofile.fruitshop.backend.dto.PageDto;
 import kr.co.cofile.fruitshop.backend.service.ItemService;
+import jakarta.validation.Valid;
+import kr.co.cofile.fruitshop.backend.dto.ItemDto;
+import kr.co.cofile.fruitshop.backend.dto.PageDto;
+import kr.co.cofile.fruitshop.backend.mapper.ItemMapper;
+import kr.co.cofile.fruitshop.backend.service.ItemService;
+import kr.co.cofile.fruitshop.backend.utils.ValidationUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @Controller
@@ -15,22 +29,21 @@ public class ItemController {
 
     private final ItemService itemService;
 
-    //public ItemController(ItemMapper itemMapper) {
-    //    this.itemMapper = itemMapper;
-    //}
-
     @GetMapping("/create")
     public String createItem() {
         return "item/create";
     }
 
     @PostMapping
-    @ResponseBody
-    public void createItem(@RequestBody ItemDto itemDto) {
+    public ResponseEntity<?> createItem(@Valid @RequestBody ItemDto itemDto, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return ValidationUtil.handleValidationErrors(bindingResult);
+        }
         System.out.println(itemDto.getName());
 
         // TODO 중복아이템 예외 처리
         itemService.createItem(itemDto);
+        return new ResponseEntity<>(itemDto, HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")

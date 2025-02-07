@@ -1,5 +1,8 @@
 package kr.co.cofile.fruitshop.backend.dto;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.ibatis.type.Alias;
@@ -9,20 +12,12 @@ import org.apache.ibatis.type.Alias;
 public class ItemDto {
 
     private Integer id;
-    private String name;
 
-    // 롬복 Getter / Setter로 대체
-    //public Integer getId() {
-    //    return id;
-    //}
-    //public void setId(Integer id) {
-    //    this.id = id;
-    //}
-    //public String getName() {
-    //    return name;
-    //}
-    //public void setName(String name) {
-    //    this.name = name;
-    //}
+    @NotBlank(message = "상품명은 필수입니다")
+    @Pattern(regexp = "^[a-zA-Z가-힣][a-zA-Z0-9가-힣]*$",
+            message = "상품명을 확인해 주세요.")
+    @Size(min = 2, max = 100,
+            message = "상품명은 2-100자 사이어야 합니다")
+    private String name;
 
 }

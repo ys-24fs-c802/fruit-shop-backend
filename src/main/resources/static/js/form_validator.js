@@ -81,13 +81,17 @@ export class FormValidator {
                     body: JSON.stringify(formValues)
                 });
 
-                // HTTP 에러 체크
+                // HTTP 상태가 OK가 아닌 경우, 응답 본문을 JSON으로 파싱하여 errorMap을 추출
                 if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                    // throw new Error(`HTTP error! status: ${response.status}`);
+                    const errorMap = await response.json();
+                    // errorMap은 { field1: [msg1, msg2, ...], field2: [msg3, ...] } 형식입니다.
+                    // 필요에 따라 이를 UI에 표시하는 로직을 호출할 수 있습니다.
+                    throw errorMap; // 또는 errorMap을 활용하는 별도 함수를 호출
                 }
 
-                // 응답 데이터 처리
-                // const result = await response.json();
+                // 정상 응답 처리 (예: 결과를 JSON으로 파싱)
+                //const result = await response.json();
 
                 // 성공 처리
                 this.handleSuccess(this.config.onSuccess.message);
@@ -95,8 +99,9 @@ export class FormValidator {
                 // 폼 초기화
                 this.form.reset();
                 this.clearFormValues(formValues);
-            } catch (error) {
-                this.handleError(this.config.onError.message)
+            } catch (errors) {
+                // this.handleError(this.config.onError.message)
+                this.handleError(errors)
             } finally {
                 this.hideLoading();
             }
@@ -120,11 +125,18 @@ export class FormValidator {
 
     // 성공 처리
     handleSuccess(result) {
-        console.log('success:', result);
+        alert('아이템이 성공적으로 등록되었습니다.');
     }
 
     // 에러 처리
-    handleError(error) {
-        console.error('error:', error);
+    handleError(errors) {
+        // errors가 errorMap 객체일 경우, 각 필드별 에러 메시지를 처리
+        for (const field in errors) {
+            const messages = errors[field];
+            // 예: 화면에 해당 필드의 에러 메시지 표시
+            const errorEl = document.getElementById(`${field}Error`);
+            errorEl.style.display = 'block';
+            errorEl.innerText = messages.join('\n');
+        }
     }
 }
