@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/base}">
+<head>
+  <meta charset="UTF-8">
+  <title>상품 구입처 상세</title>
+</head>
+<body>
+<main layout:fragment="content">
+  <h1>상품 구입처 상세</h1>
+  <ul>
+    <li>id: <span th:text="${supply.id}"></span></li>
+    <li>name: <span th:text="${supply.name}"></span></li>
+    <li>contact1: <span th:text="${supply.contact1}"></span></li>
+    <li>contact2: <span th:text="${supply.contact2}"></span></li>
+    <li>businessNumber: <span th:text="${supply.businessNumber}"></span></li>
+    <li><a th:href="@{/admin/supplies/{id}/modify(id=${supply.id})}">수정하기</a></li>
+    <li><a href="#" th:data-supply-id="${supply.id}" onclick="confirmDelete(this); return false;">삭제하기</a></li>
+  </ul>
+</main>
+<th:block layout:fragment="js">
+  <script th:src="@{/js/supplies_detail.js}"></script>
+</th:block>
+</body>
+</html>

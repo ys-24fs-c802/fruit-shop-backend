@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.cofile.fruitshop.backend.mapper.ItemMapper">
+
+    <insert id="insertItem" parameterType="ItemDto"
+        useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO items (name) VALUES (#{name});
+    </insert>
+
+    <select id="selectItemById" resultType="ItemDto">
+        SELECT id, name FROM items WHERE id = #{id};
+    </select>
+
+    <select id="selectItems" resultType="ItemDto">
+        SELECT id, name FROM items ORDER BY id DESC LIMIT #{size} OFFSET #{offset};
+    </select>
+
+    <select id="countTotal" resultType="Integer">
+        SELECT count(*) FROM items;
+    </select>
+
+    <update id="updateItem" parameterType="ItemDto">
+        UPDATE items SET name = #{name} WHERE id = #{id};
+    </update>
+
+    <delete id="deleteItem">
+        DELETE FROM items WHERE id = #{id};
+    </delete>
+
+</mapper>
