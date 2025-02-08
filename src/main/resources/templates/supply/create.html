@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/base}">
+<head>
+    <title>구입처 등록</title>
+</head>
+<body>
+<main layout:fragment="content">
+    <h1>새 구입처</h1>
+    <form id="supplyForm" th:action="@{/supply}" method="post">
+        <label for="name_id">구입처: </label>
+        <input type="text" id="name_id" name="name" required>
+        <span>숫자로 시작할 수 없으며 영문자(대/소문자), 한글, 숫자를 포함할 수 있습니다.</span>
+        <div>
+            <span id="spaceError" class="error">공백은 사용할 수 없습니다.</span>
+            <span id="specialCharError" class="error">특수문자는 사용할 수 없습니다.</span>
+            <span id="startWithNumberError" class="error">숫자할 수 없습니다.</span>
+            <span id="nameError" class="error"></span>
+        </div>
+        <label for="contact1_id">연락처1: </label>
+        <input type="text" id="contact1_id" name="contact1">
+        <span>예) 02-1234-5678, 031-234-5678</span>
+        <div>
+            <span id="contact1Error" class="error">연락처1을 확인해 주세요.</span>
+        </div>
+        <label for="contact2_id">연락처2: </label>
+        <input type="text" id="contact2_id" name="contact2">
+        <span>예) 010-1234-5678</span>
+        <div>
+            <span id="contact2Error" class="error">연락처2을 확인해 주세요.</span>
+        </div>
+        <label for="business_number_id">사업자번호: </label>
+        <input type="text" id="business_number_id" name="business_number">
+        <span>예) 123-45-67890</span>
+        <div>
+            <span id="businessNumberError" class="error">사업자번호를 확인해 주세요.</span>
+        </div>
+        <button type="submit">구입처 등록</button>
+    </form>
+</main>
+<th:block layout:fragment="js">
+    <script th:type="module" th:src="@{/js/supplies.js}"></script>
+</th:block>
+</body>
+</html>
