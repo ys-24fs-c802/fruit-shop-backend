@@ -46,7 +46,7 @@ public class SecurityConfig {
                         .permitAll()
                 )
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/admin/login").permitAll()
+                        .requestMatchers("/admin/login", "/admin/file/**").permitAll()
                         .requestMatchers("/admin/user/{id}").hasRole("ADMIN")
                         .requestMatchers("/admin/**").hasAnyRole("ADMIN", "MANAGER")
                         // 그 외는 인증을 요구
