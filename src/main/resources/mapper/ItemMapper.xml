@@ -4,15 +4,15 @@
 
     <insert id="insertItem" parameterType="ItemDto"
         useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO items (name) VALUES (#{name});
+        INSERT INTO items (name, user_id) VALUES (#{name}, #{userId});
     </insert>
 
     <select id="selectItemById" resultType="ItemDto">
-        SELECT id, name FROM items WHERE id = #{id};
+        SELECT id, name, user_id FROM items WHERE id = #{id};
     </select>
 
     <select id="selectItems" resultType="ItemDto">
-        SELECT id, name FROM items ORDER BY id DESC LIMIT #{size} OFFSET #{offset};
+        SELECT id, name, user_id FROM items ORDER BY id DESC LIMIT #{size} OFFSET #{offset};
     </select>
 
     <select id="countTotal" resultType="Integer">

@@ -20,4 +20,5 @@ public class ItemDto {
             message = "상품명은 2-100자 사이어야 합니다")
     private String name;
 
+    private Integer userId;
 }

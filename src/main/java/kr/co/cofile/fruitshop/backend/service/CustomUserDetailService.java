@@ -3,6 +3,7 @@ package kr.co.cofile.fruitshop.backend.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import kr.co.cofile.fruitshop.backend.component.CustomUserDetails;
 import kr.co.cofile.fruitshop.backend.dto.UserDTO;
 import kr.co.cofile.fruitshop.backend.mapper.UserMapper;
 import org.springframework.security.core.GrantedAuthority;
@@ -31,12 +32,11 @@ public class CustomUserDetailService implements UserDetailsService {
                 .map(role -> new SimpleGrantedAuthority(role.getName()))
                 .collect(Collectors.toList());
 
-        return new org.springframework.security.core.userdetails.User(
+        return new CustomUserDetails(
+                userDTO.getId(),
                 userDTO.getUsername(),
                 userDTO.getPassword(),
                 userDTO.isEnabled(),
-                true, true, true,
-                //Collections.singletonList(new SimpleGrantedAuthority(user.getRole())));
                 authorities);
     }
 

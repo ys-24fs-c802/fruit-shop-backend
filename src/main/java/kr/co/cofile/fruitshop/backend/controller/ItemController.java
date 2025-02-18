@@ -1,5 +1,6 @@
 package kr.co.cofile.fruitshop.backend.controller;
 
+import kr.co.cofile.fruitshop.backend.component.CustomUserDetails;
 import kr.co.cofile.fruitshop.backend.dto.ItemDto;
 import kr.co.cofile.fruitshop.backend.dto.PageDto;
 import kr.co.cofile.fruitshop.backend.service.ItemService;
@@ -12,6 +13,7 @@ import kr.co.cofile.fruitshop.backend.utils.ValidationUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -35,11 +37,16 @@ public class ItemController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createItem(@Valid @RequestBody ItemDto itemDto, BindingResult bindingResult) {
+    public ResponseEntity<?> createItem(@Valid @RequestBody ItemDto itemDto,
+                                        BindingResult bindingResult,
+                                        @AuthenticationPrincipal CustomUserDetails userDetails) {
         if (bindingResult.hasErrors()) {
             return ValidationUtil.handleValidationErrors(bindingResult);
         }
         System.out.println(itemDto.getName());
+
+        // 작성자 ID 추가>
+        itemDto.setUserId(userDetails.getUserId());
 
         // TODO 중복아이템 예외 처리
         itemService.createItem(itemDto);
