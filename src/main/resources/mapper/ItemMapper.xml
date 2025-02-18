@@ -8,11 +8,13 @@
     </insert>
 
     <select id="selectItemById" resultType="ItemDto">
-        SELECT id, name, user_id FROM items WHERE id = #{id};
+        SELECT it.id, it.name, it.user_id, us.username FROM items it
+            INNER join users us ON it.user_id = us.id WHERE it.id = #{id};
     </select>
 
     <select id="selectItems" resultType="ItemDto">
-        SELECT id, name, user_id FROM items ORDER BY id DESC LIMIT #{size} OFFSET #{offset};
+        SELECT it.id, it.name, it.user_id, us.username FROM items it
+            INNER join users us ON it.user_id = us.id ORDER BY it.id DESC LIMIT #{size} OFFSET #{offset};
     </select>
 
     <select id="countTotal" resultType="Integer">

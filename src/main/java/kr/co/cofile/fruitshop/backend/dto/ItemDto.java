@@ -21,4 +21,5 @@ public class ItemDto {
     private String name;
 
     private Integer userId;
+    private String username;
 }

@@ -12,6 +12,7 @@
   <ul>
     <li>id: <span th:text="${item.id}"></span></li>
     <li>name: <span th:text="${item.name}"></span></li>
+    <li>writer: <span th:text="${item.username}"></span>(<span th:text="${item.userId}"></span>)</li>
     <li><a th:href="@{/admin/items/{id}/modify(id=${item.id})}">수정하기</a></li>
     <li><a href="#" th:data-item-id="${item.id}" onclick="confirmDelete(this); return false;">삭제하기</a></li>
   </ul>

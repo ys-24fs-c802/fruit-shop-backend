@@ -15,11 +15,13 @@
     <tr>
       <th>아이디</th>
       <th>상품명</th>
+      <th>작성자</th>
     </tr>
     <!-- 반복구간 시작 List<ItemDto> -->
     <tr th:each="item: ${pageDto.content}">
       <td th:text="${item.id}"></td>
       <td><a th:href="@{/admin/items/{id}(id=${item.id})}" th:text="${item.name}"></a></td>
+      <td><a th:href="@{/admin/users/{id}(id=${item.userId})}" th:text="${item.username}"></a></td>
     </tr>
     <!-- 반복구간 끝 -->
   </table>
