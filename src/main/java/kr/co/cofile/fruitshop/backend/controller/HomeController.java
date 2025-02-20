@@ -11,8 +11,9 @@ public class HomeController {
         return "redirect:admin/dashboard";
     }
 
-    @GetMapping("/admin")
+    @GetMapping({"/admin", "/admin/dashboard"})
     public String dashboard() {
         return "common/dashboard";
     }
+
 }

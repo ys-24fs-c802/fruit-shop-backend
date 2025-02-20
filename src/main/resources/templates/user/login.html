@@ -1,46 +1,31 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html layout:decorate="~{layout/base}">
 <head>
-  <title>Login</title>
+    <title>로그인</title>
 </head>
 <body>
-<nav>
-  <ul>
-    <li><a th:href="@{/}">홈</a></li>
-    <li sec:authorize="!isAuthenticated()">
-      <a th:href="@{/admin/login}">로그인</a>
-    </li>
-    <li sec:authorize="hasRole('ADMIN')">
-      <a th:href="@{/admin/users}">사용자 관리</a>
-    </li>
-    <li sec:authorize="isAuthenticated()">
-      <form th:action="@{/logout}" method="post">
-        <button type="submit">로그아웃</button>
-      </form>
-    </li>
-  </ul>
-</nav>
-<h1>Login</h1>
+<main layout:fragment="content">
+    <h1>Login</h1>
 
-<div th:if="${param.error}">
-  Invalid username and password.
-</div>
-<div th:if="${param.logout}">
-  You have been logged out.
-</div>
+    <div th:if="${param.error}">
+        Invalid username and password.
+    </div>
+    <div th:if="${param.logout}">
+        You have been logged out.
+    </div>
 
-<form th:action="@{/admin/login}" method="post">
-  <div>
-    <label>Username: <input type="text" name="username"/></label>
-  </div>
-  <div>
-    <label>Password: <input type="password" name="password"/></label>
-  </div>
-  <div>
-    <input type="submit" value="Login"/>
-  </div>
-</form>
+    <form th:action="@{/admin/auth/login}" method="post">
+        <div>
+            <label>Username: <input type="text" name="username"/></label>
+        </div>
+        <div>
+            <label>Password: <input type="password" name="password"/></label>
+        </div>
+        <div>
+            <input type="submit" value="Login"/>
+        </div>
+    </form>
 
-<a th:href="@{/}">Back to Home</a>
+    <a th:href="@{/}">Back to Home</a>
+</main>
 </body>
 </html>

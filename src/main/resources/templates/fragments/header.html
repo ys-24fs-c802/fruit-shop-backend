@@ -1,11 +1,29 @@
 <header th:fragment="header">
-  <nav>
-    <ul>
-      <li><a th:href="@{/admin}">홈</a></li>
-      <li><a th:href="@{/admin/items}">상품목록</a></li>
-      <li><a th:href="@{/admin/items/create}">상품추가</a></li>
-      <li><a th:href="@{/admin/supplies}">구입처목록</a></li>
-      <li><a th:href="@{/admin/supplies/create}">구입처추가</a></li>
-    </ul>
-  </nav>
+    <nav>
+        <ul>
+            <li><a th:href="@{/admin}">홈</a></li>
+            <li><a th:href="@{/admin/items}">상품목록</a></li>
+            <li><a th:href="@{/admin/items/create}">상품추가</a></li>
+            <li><a th:href="@{/admin/supplies}">구입처목록</a></li>
+            <li><a th:href="@{/admin/supplies/create}">구입처추가</a></li>
+        </ul>
+    </nav>
+    <nav>
+        <ul>
+            <li sec:authorize="!isAuthenticated()">
+                <a th:href="@{/admin/auth/login}">로그인</a>
+            </li>
+            <li sec:authorize="!isAuthenticated()">
+                <a th:href="@{/admin/auth/signup}">회원가입</a>
+            </li>
+            <li sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{/admin/users}">사용자 관리</a>
+            </li>
+            <li sec:authorize="isAuthenticated()">
+                <form th:action="@{/logout}" method="post">
+                    <button type="submit">로그아웃</button>
+                </form>
+            </li>
+        </ul>
+    </nav>
 </header>
